@@ -20,21 +20,7 @@ UNION SELECT DISTINCT spaPTTerName,  spaPTAreaName,  spaPTRegName  FROM tbl_zno_
 
 -- видалити рядки з NULL
 DELETE FROM Location WHERE TerName IS NULL;
-/*
--- можливі наступні пари рядків: в одному рядку AreaName = м. Київ,
--- а в іншому -- AreaName = м. Київ. Шевченківський район міста
--- для таких пар рядків треба видалити той рядок, атрибут AreaName якого містить також і район
--- визначити такі рядки просто: атрибут AreaName міститиме дві крапки
--- (приклад: м. Київ. Шевченківський район міста -- містить дві крапки)
-DELETE FROM Location loc1
--- перша умова -- AreaName містить дві крапки
-WHERE (CHAR_LENGTH(loc1.AreaName) - CHAR_LENGTH(REPLACE(loc1.AreaName, '.', ''))) = 2 AND
--- друга умова -- вже існують рядки з заданою локацією (наприклад, у них AreaName = м. Київ,
--- а TerName = Шевченківський рядок міста)
-    (SELECT COUNT(*) FROM Location loc2 
-    WHERE loc2.AreaName = split_part(loc1.AreaName, '.', 1) || '.' || split_part(loc1.AreaName, '.', 2)
-        AND loc2.TerName = ltrim(split_part(loc1.AreaName, '.', 3))) >= 1 ; 
-*/
+
 
 -- вставляємо інформацію про тип населеного пункту (місто чи село)
 UPDATE Location 
